@@ -1,0 +1,50 @@
+<div class="panel panel-default">
+<div class="panel-heading">
+	<div class="row">
+		<div class="col-sm-8">
+			<h3 class="panel-title"><i class="fa fa-group"></i>&nbsp;&nbsp;All Users</h3>
+		</div>
+		<div class="col-sm-4">
+			<div class="btn-group pull-right">
+				<a id="new-button" href="#" class="btn btn-default btn-warning dropdown-toggle" data-toggle="dropdown">
+					<i class="fa fa-plus"></i> New <i class="fa fa-caret-down"></i>
+				</a>
+				<ul class="dropdown-menu">
+					<li class="dropdown-header">Admin Options</li>
+					<li><a href="/user/new">User</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<table class="table table-striped" style="margin-bottom:0;">
+	<thead>
+		<th>First Name</th>
+		<th>Last Name</th>
+		<th>Phone</th>
+		<th>Email</th>
+		<th>Action</th>
+	</thead>
+	<tr ng-repeat="user in users">
+		<td>{{user.name.first}}</td>
+		<td>{{user.name.last}}</td>
+		<td>{{user.phone}}</td>
+		<td>{{user.email}}</td>
+		<td>
+			<div class="dropdown">
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+					<span class="caret"></span>
+				</button>
+				<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+					<li role="presentation"><a role="menuitem" tabindex="-1" href="/user/{{user._id}}">Edit</a></li>
+					<li role="presentation"><a role="menuitem" tabindex="-1" ng-click="removeUser($event, user._id)" href="/#">Delete</a></li>
+					<!-- <li role="presentation" class="divider"></li> -->
+					
+				</ul>
+			</div>
+		</td>
+	</tr>
+</table>
+<div class="panel-footer">
+	<a class="btn btn-default btn-block" href="#"><small><i class="fa fa-chevron-up"></i></small> Back to Top <small><i class="fa fa-chevron-up"></i></small></a>
+</div>

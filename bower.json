@@ -1,0 +1,24 @@
+{
+  "name": "angular-seed",
+  "version": "0.0.0",
+  "homepage": "https://github.com/zy53/angular-express-ejs-seed",
+  "authors": [
+    "Jeff Yu <jeff.yu@littlegiant.co.nz>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "public/vendor",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-route": "~1.2.21",
+    "angular": "~1.2.21",
+    "components-font-awesome": "~4.1.0",
+    "bootstrap": "~3.2.0",
+    "jquery": "1.10.0"
+  }
+}
