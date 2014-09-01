@@ -20,7 +20,8 @@
 		<script src="/js/directives.js"></script>
 	</head>
 	<body ng-controller="AppCtrl">
-	<header class="navbar navbar-static-top">
+
+	<header class="navbar navbar-static-top header" ng-hide="{{hideHeader}}">
 		<div class="container">
 			<nav class="collapse navbar-collapse" role="navigation">
 				<ul class="nav navbar-nav">
@@ -32,17 +33,14 @@
 			</nav>
 		</div>
 	</header>
-	
-	<div class="container" >
-		<div class="well" ng-view>
-		</div>
-	</div>
 
-	<footer class="navbar navbar-static-bottom">
+	<div ng-view></div>
+
+	<footer class="navbar navbar-static-bottom footer">
 		<div class="container">
 			<small>
-				<ul class="list-inline">
-					<li><a>v0.0.1-beta</a></li>
+				<ul class="list-inline text-center">
+					<li><a class="white ">v0.0.1-beta</a></li>
 				</ul>
 			</small>
 		</div>

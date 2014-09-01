@@ -17,6 +17,10 @@ myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $
 			templateUrl: '/partials/login.ejs',
 			controller: 'LoginCtrl'
 		})
+		.when('/login', {
+			templateUrl: '/partials/login.ejs',
+			controller: 'LoginCtrl'
+		})
 		.when('/home', {
 			templateUrl: '/partials/index.ejs',
 			controller: 'IndexCtrl'

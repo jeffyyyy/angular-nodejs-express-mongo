@@ -1,5 +1,12 @@
 var User = require(__dirname + '/../models/user.js');
 var async = require('async');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+
+exports.login = function(req, res, next) {
+	var body = req.body;
+	console.log(body);
+}
 
 /*
  * Serve user info in JSON format to our AngularJS client

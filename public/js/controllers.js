@@ -4,23 +4,35 @@
 
 var Controllers = angular.module('myApp.controllers', []);
 
-Controllers.controller('AppCtrl', function ($scope) {
-		
+Controllers.controller('AppCtrl', function ($scope, $location) {
+	if (['/','/login'].indexOf($location.$$path) > -1) $scope.hideHeader = true;
 });
 
-Controllers.controller('LoginCtrl', function ($scope) {
-	
+Controllers.controller('LoginCtrl', function ($scope, $http) {
+	$scope.submit = function() {
+		$http({
+			method: 'POST',
+			url: '/api/login',
+			data: {'username':this.username, 'password':this.password}
+		})
+		.success(function(data, status, headers, config){
+
+		})
+		.error(function(data, status, headers, config){
+
+		});
+	}
 });
 
 Controllers.controller('IndexCtrl', function ($scope, $http, $location) {
 	$http({
 		method: 'GET',
 		url: '/api/getUsers'
-	}).
-	success(function (data, status, headers, config) {
+	})
+	.success(function (data, status, headers, config) {
 		$scope.users = data;
-	}).
-	error(function (data, status, headers, config) {
+	})
+	.error(function (data, status, headers, config) {
 		$scope.data = [];
 	});
 
@@ -43,11 +55,11 @@ Controllers.controller('UserIndexCtrl', function ($scope, $http, $location) {
 	$http({
 		method: 'GET',
 		url: '/api/getUsers'
-	}).
-	success(function (data, status, headers, config) {
+	})
+	.success(function (data, status, headers, config) {
 		$scope.users = data;
-	}).
-	error(function (data, status, headers, config) {
+	})
+	.error(function (data, status, headers, config) {
 		$scope.data = [];
 	});
 
@@ -99,11 +111,11 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 		$http({
 			method: 'GET',
 			url: '/api/getUser/' + $routeParams.userId
-		}).
-		success(function (data, status, headers, config) {
+		})
+		.success(function (data, status, headers, config) {
 			$scope.form = data;
-		}).
-		error(function (data, status, headers, config) {
+		})
+		.error(function (data, status, headers, config) {
 			alert(data.message);
 			$location.path('/');
 		});

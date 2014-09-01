@@ -8,7 +8,8 @@ var UserSchema = new Schema({
 		last: {type: String, default: ''}
 	},
 	phone: {type: String, default: ''},
-	email: {type: String, default: ''}
+	email: {type: String, required: true},
+	password: {type: String, required: true}
 });
 
 module.exports = UserSchema;

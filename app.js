@@ -19,6 +19,7 @@ var express = require('express'),
   	bodyParser = require('body-parser'),
   	morgan  = require('morgan'),
   	serveStatic = require('serve-static')
+  	passport = require('passport');
 ;
 
 global.app = app;
@@ -49,7 +50,19 @@ app.use(methodOverride(function(req, res){
 }));
 app.use(serveStatic(__dirname + '/public', { maxAge: app.config.server.cache.maxAge }));
 app.use(morgan('dev'));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(app.router);
+
+passport.serializeUser(function(user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
 
 var mongo = mongoose.connect(app.config.mongo.uri);
 
