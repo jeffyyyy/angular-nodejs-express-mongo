@@ -4,42 +4,60 @@
 
 var myApp = angular.module('myApp', [
 	'ngRoute',
-	'myApp.controllers',
 	'myApp.factory',
+	'myApp.controllers',
 	'myApp.filters',
 	'myApp.services',
 	'myApp.directives'
 ]);
 
-myApp.config(['$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+myApp.config(function ($routeProvider, $locationProvider, $httpProvider) {
+	$httpProvider.interceptors.push('authInterceptor');
+
 	$routeProvider
 		.when('/', {
 			templateUrl: '/partials/login.ejs',
-			controller: 'LoginCtrl'
+			controller: 'LoginCtrl',
+			access: { requiredLogin: false }
 		})
 		.when('/login', {
 			templateUrl: '/partials/login.ejs',
-			controller: 'LoginCtrl'
+			controller: 'LoginCtrl',
+			access: { requiredLogin: false }
 		})
 		.when('/home', {
 			templateUrl: '/partials/index.ejs',
-			controller: 'IndexCtrl'
+			controller: 'IndexCtrl',
+			access: { requiredLogin: true }
 		})
 		.when('/user', {
 			templateUrl: 'partials/userIndex.ejs',
-			controller: 'UserIndexCtrl'
+			controller: 'UserIndexCtrl',
+			access: { requiredLogin: true }
 		})
 		.when('/user/:userId', {
 			templateUrl: '/partials/userEdit.ejs',
-			controller: 'UserEditCtrl'
+			controller: 'UserEditCtrl',
+			access: { requiredLogin: true }
 		})
 		.when('/flightGame', {
 			templateUrl: '/partials/flightGame.ejs',
-			controller: 'FlightGameCtrl'
+			controller: 'FlightGameCtrl',
+			access: { requiredLogin: true }
 		})
 		.otherwise({
-			redirectTo: '/home'
+			redirectTo: '/login'
 		});
 
 	$locationProvider.html5Mode(true);
-}]);
+});
+
+myApp.run(function($rootScope, $location, AuthenticationService) {
+    $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
+		console.log(AuthenticationService);
+		console.log(nextRoute.access);
+        if (nextRoute.access.requiredLogin && !AuthenticationService.isLogged) {
+            $location.path("/login");
+        }
+    });
+});

@@ -1,12 +1,31 @@
 var User = require(__dirname + '/../models/user.js');
 var async = require('async');
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+var jwt = require('jsonwebtoken');
 
 exports.login = function(req, res, next) {
-	var body = req.body;
-	console.log(body);
-}
+	var username = req.body.username || '';
+	var password = req.body.password || '';
+
+	if (username == '' || password == '') return res.send(401);
+
+	User.findOne({email: username}, function(err, user) {
+		if(err) {
+			console.log(err);
+			return send(401);
+		}
+
+		user.comparePassword(password, function(isMatch) {
+			if (!isMatch) {
+				console.log("Attempt failed to login with " + user.email);
+				return res.send(401);
+			}
+
+			var token = jwt.sign(user, app.config.session.secret, {expiresInMinutes: app.config.session.maxAge});
+			res.json({token: token});
+		});
+
+	});
+};
 
 /*
  * Serve user info in JSON format to our AngularJS client
@@ -53,6 +72,7 @@ exports.updateUser = function(req, res, next) {
 		user.name.last = formData.name.last;
 		user.phone = formData.phone;
 		user.email = formData.email;
+		user.password = formData.password;
 
 		user.save(function(err, user) {
 			if(err) return next(err);

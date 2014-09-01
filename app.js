@@ -18,8 +18,9 @@ var express = require('express'),
   	methodOverride = require('method-override'),
   	bodyParser = require('body-parser'),
   	morgan  = require('morgan'),
-  	serveStatic = require('serve-static')
-  	passport = require('passport');
+  	serveStatic = require('serve-static'),
+  	expressJwt = require('express-jwt'),
+  	jwt = require('jsonwebtoken')
 ;
 
 global.app = app;
@@ -34,6 +35,7 @@ app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
  */
 
 // Include middleware.
+// app.use('/api', expressJwt({secret: app.config.session.secret}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -42,27 +44,16 @@ app.use(bodyParser.urlencoded({
 app.use(compression());
 app.use(methodOverride(function(req, res){
 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-	// look in urlencoded POST bodies and delete it
-	var method = req.body._method
-	delete req.body._method
-	return method
-  }
+		// look in urlencoded POST bodies and delete it
+		var method = req.body._method
+		delete req.body._method
+		return method
+	}
 }));
 app.use(serveStatic(__dirname + '/public', { maxAge: app.config.server.cache.maxAge }));
 app.use(morgan('dev'));
-app.use(passport.initialize());
-app.use(passport.session());
+app.use(express.session({ secret: 'keyboard cat' }));
 app.use(app.router);
-
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
 
 var mongo = mongoose.connect(app.config.mongo.uri);
 

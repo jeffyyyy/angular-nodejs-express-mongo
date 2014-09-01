@@ -8,18 +8,24 @@ Controllers.controller('AppCtrl', function ($scope, $location) {
 	if (['/','/login'].indexOf($location.$$path) > -1) $scope.hideHeader = true;
 });
 
-Controllers.controller('LoginCtrl', function ($scope, $http) {
+Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location) {
 	$scope.submit = function() {
 		$http({
 			method: 'POST',
-			url: '/api/login',
+			url: '/authenticate',
 			data: {'username':this.username, 'password':this.password}
 		})
 		.success(function(data, status, headers, config){
-
+			$window.sessionStorage.token = data.token;
+			$scope.message = 'Welcome';
+			$location.path('/user');
 		})
 		.error(function(data, status, headers, config){
-
+			// Erase the token if the user fails to log in
+			delete $window.sessionStorage.token;
+			console.log(data, status, headers, config);
+			// Handle login errors here
+			$scope.message = 'Error: Invalid user or password';	
 		});
 	}
 });
@@ -31,8 +37,11 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location) {
 	})
 	.success(function (data, status, headers, config) {
 		$scope.users = data;
+		console.log(data, status, headers, config);
 	})
 	.error(function (data, status, headers, config) {
+		console.log("wtf");
+		console.log(data, status, headers, config);
 		$scope.data = [];
 	});
 

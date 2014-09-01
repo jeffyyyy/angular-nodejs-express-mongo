@@ -1,6 +1,6 @@
 {
 	"title": "Customer Portal [Development]",
-
+	"saltFactor": 10,
 	"server": {
 		"port": 5040,
 		"cache": {
