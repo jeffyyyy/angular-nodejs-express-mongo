@@ -10,6 +10,7 @@
 
 		<script type="text/javascript" src="/public/vendor/jquery/jquery.min.js"></script>
 		<script type="text/javascript" src="/public/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
 		<script src="/public/vendor/angular/angular.min.js"></script>
 		<script src="/public/vendor/angular-route/angular-route.min.js"></script>
 		<script src="/public/js/app.js"></script>
@@ -20,8 +21,10 @@
 		<script src="/public/js/directives.js"></script>
 	</head>
 	<body ng-controller="AppCtrl">
-
-	<div ng-view></div>
-
+		<div ng-view></div>
+		
+	<script>
+		var socket = io();
+	</script>
 	</body>
 </html>

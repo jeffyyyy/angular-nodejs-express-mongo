@@ -19,6 +19,10 @@ Factories.factory('User', function($http, Config) {
 			return $http.post('/authenticate', {username: username, password: password});
 		},
 
+		logout: function() {
+            return $http.get('/api/logout');
+        },
+
 		getUser: function(id) {
 			return $http.get('/api/getUser/' + id);
 		},

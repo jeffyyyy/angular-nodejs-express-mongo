@@ -17,6 +17,7 @@ app.get('/api/getUsers', api.getUsers);
 app.get('/api/getConfig', api.getConfig);
 app.get('/api/getUser/:id', api.getUser);
 app.post('/api/updateUser/:id', api.updateUser);
+app.post('/api/logout', api.logout);
 app.delete('/api/removeUser/:id', api.removeUser, api.getUsers);
 
 // redirect all others to the index (HTML5 history)

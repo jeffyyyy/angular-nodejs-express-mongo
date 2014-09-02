@@ -1,6 +1,7 @@
 var User = require(__dirname + '/../models/user.js');
 var async = require('async');
 var jwt = require('jsonwebtoken');
+var tokenManager = require('token-manager');
 
 exports.login = function(req, res, next) {
 	var username = req.body.username || '';
@@ -20,16 +21,29 @@ exports.login = function(req, res, next) {
 				return res.send(401);
 			}
 
-			var token = jwt.sign(user, app.config.session.secret, {expiresInMinutes: app.config.session.maxAge});
+			var token = jwt.sign({id: user._id}, app.config.session.secret, {expiresInMinutes: tokenManager.TOKEN_EXPIRATION});
 			res.json({token: token});
 		});
 
 	});
 };
 
+exports.logout = function(req, res, next) {
+	if (req.user) {
+		console.log(req.user, req.headers);
+		tokenManager.expireToken(req.headers);
+
+		delete req.user;	
+		return res.send(200);
+	}
+	else {
+		return res.send(401);
+	}
+};
+
 exports.getConfig = function(req, res, next) {
 	return res.json(app.config);
-}
+};
 
 /*
  * Serve user info in JSON format to our AngularJS client

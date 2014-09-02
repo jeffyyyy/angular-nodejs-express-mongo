@@ -25,8 +25,8 @@ myApp.config(function ($routeProvider, $locationProvider) {
 		})
 		.when('/logout', {
 			templateUrl: '/public/partials/login.ejs',
-			controller: 'LoginCtrl',
-			access: { requiredLogin: false }
+			controller: 'AppCtrl',
+			access: { requiredLogin: true }
 		})
 		.when('/home', {
 			templateUrl: '/public/partials/index.ejs',

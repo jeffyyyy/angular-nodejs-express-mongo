@@ -4,14 +4,11 @@
 
 var Controllers = angular.module('myApp.controllers', []);
 
-Controllers.controller('AppCtrl', function ($scope, $location, Config) {
+Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, AuthenticationService, User) {
 	Config.getConfig().success(function(data) {
 		$scope.config = data;
 	});
-});
-
-//login page
-Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location, AuthenticationService, User) {
+	
 	$scope.login = function(username, password) {
 		if (username !== undefined && password !== undefined) {
 			User.login(username, password).success(function(data) {
@@ -24,15 +21,24 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 
 	$scope.logout = function() {
 		if (AuthenticationService.isLogged) {
-			AuthenticationService.isLogged = false;
-			delete $window.sessionStorage.token;
-			$location.path('login');
+			User.logout().success(function(data) {
+				AuthenticationService.isLogged = false;
+				delete $window.sessionStorage.token;
+				$location.path('/login');
+			}).error(function(status, data) {
+
+			});
 		}
 	}
 });
 
+//login page
+Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location, AuthenticationService, User) {
+
+});
+
 // Home page
-Controllers.controller('IndexCtrl', function ($scope, $http, $location, User) {
+Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, AuthenticationService) {
 	User.getUsers().success(function (data, status, headers, config) {
 		$scope.users = data;
 

@@ -4,10 +4,10 @@
  */
 
 var express = require('express'),
-	http = require('http'),
+	app = module.exports = express(),
+	http = require('http').Server(app),
 	path = require('path'),
 	mongoose = require('mongoose'),
-	app = module.exports = express(),
 	ejs = require('ejs'),
 	config = require(__dirname + '/config/' + app.get('env')),
 	Session = require('connect-mongo')(express),
@@ -20,7 +20,9 @@ var express = require('express'),
   	morgan  = require('morgan'),
   	serveStatic = require('serve-static'),
   	expressJwt = require('express-jwt'),
-  	jwt = require('jsonwebtoken')
+  	jwt = require('jsonwebtoken'),
+  	io = require('socket.io')(http),
+  	tokenManager = require('token-manager')
 ;
 
 global.app = app;
@@ -35,7 +37,7 @@ app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
  */
 
 // Include middleware.
-app.use('/api', expressJwt({secret: app.config.session.secret}));
+app.use('/api', expressJwt({secret: app.config.session.secret}), tokenManager.verifyToken);
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -86,12 +88,16 @@ app.use(function(err, req, res, next) {
 	return false;
 });
 
+io.on('connection', function(socket) {
+	console.log('a user connected');
+});
+
 /**
  * Start Server
  */
 mongoose.connection.on('open', function() {
 	// Bind to configured port.
-	app.listen(app.config.server.port, function() {
+	http.listen(app.config.server.port, function() {
 		app.logger.info('Started on port %s in %s mode', app.config.server.port, app.settings.env);
 	});
 });
