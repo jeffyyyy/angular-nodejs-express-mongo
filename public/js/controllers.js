@@ -42,7 +42,7 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 });
 
 // Home page
-Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, AuthenticationService, socket) {
+Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket) {
 	User.getCurrentUser().success(function(data) {
 		$scope.name = data.name.first + ' ' + data.name.last;
 		socket.emit('init', {
@@ -51,20 +51,29 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, Au
 
 		socket.on('send:message', function(message) {
 			$scope.messages.push(message);
+			$scope.stopFlash();
 		});
 
 		socket.on('user:join', function(data) {
 			$scope.messages.push({
 				user: 'Chatroom',
-				text: 'User ' + data.name + ' has joined.'
-			})
+				text: 'User ' + data.name + ' has joined.',
+				class: 'alert-success'
+			});
+			$scope.stopFlash();
+			$location.hash('bottom');
+	        $anchorScroll();
 		});
 
 		socket.on('user:left', function(data) {
 			$scope.messages.push({
 				user: 'Chatroom',
-				text: 'User ' + data.name + ' has left.'
+				text: 'User ' + data.name + ' has left.',
+				class: 'alert-danger'
 			});
+			$scope.stopFlash();
+			$location.hash('bottom');
+	        $anchorScroll();
 		});
 
 		$scope.messages = [];
@@ -78,8 +87,19 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, Au
 				user: $scope.name,
 				text: $scope.message
 			});
+			
+			$scope.stopFlash();
 
+			$location.hash('bottom');
+	        $anchorScroll();
 			$scope.message = '';
+			
+		}
+
+		$scope.stopFlash = function() {
+			if(angular.isDefined(stop)) {
+				$scope.stop();
+			}
 		}
 	});
 

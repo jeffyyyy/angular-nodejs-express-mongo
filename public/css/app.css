@@ -9,21 +9,23 @@ html, body {
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-.white{
+.white {
 	color:white;
 }
 
-.text-right
-{
+.text-right {
     text-align: right !important;
 }
 
-.text-center
-{
+.text-center {
     text-align: center !important;
 }
 
-.text-left
-{
+.text-left {
     text-align: left !important;
+}
+
+#bottom {
+  display: block;
+  margin-top: 40px;
 }
