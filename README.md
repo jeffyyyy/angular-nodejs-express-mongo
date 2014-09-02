@@ -5,7 +5,7 @@ An experiment of using Angularjs backed with nodejs/express and Mongodb.
 
 Containing basicfunctions such as user authentication and management.
 
-5 Steps to make it work:
+A few Steps to make it work:
 
 A. Install Mongo and start mongo server
 
@@ -16,3 +16,5 @@ C. cd into this project folder and run command 'npm install'
 D. run command 'bower install'
 
 E. run command 'node init.js' (Create a sample user with username admin@admin.com, and password is admin)
+
+F. run command 'node app.js' to start the application, the view in browser with url http://localhost:5040
