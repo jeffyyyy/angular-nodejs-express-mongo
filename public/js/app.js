@@ -4,44 +4,47 @@
 
 var myApp = angular.module('myApp', [
 	'ngRoute',
+	'myApp.services',
 	'myApp.factory',
 	'myApp.controllers',
 	'myApp.filters',
-	'myApp.services',
 	'myApp.directives'
 ]);
 
-myApp.config(function ($routeProvider, $locationProvider, $httpProvider) {
-	$httpProvider.interceptors.push('authInterceptor');
-
+myApp.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
 		.when('/', {
-			templateUrl: '/partials/login.ejs',
+			templateUrl: '/public/partials/login.ejs',
 			controller: 'LoginCtrl',
 			access: { requiredLogin: false }
 		})
 		.when('/login', {
-			templateUrl: '/partials/login.ejs',
+			templateUrl: '/public/partials/login.ejs',
+			controller: 'LoginCtrl',
+			access: { requiredLogin: false }
+		})
+		.when('/logout', {
+			templateUrl: '/public/partials/login.ejs',
 			controller: 'LoginCtrl',
 			access: { requiredLogin: false }
 		})
 		.when('/home', {
-			templateUrl: '/partials/index.ejs',
+			templateUrl: '/public/partials/index.ejs',
 			controller: 'IndexCtrl',
 			access: { requiredLogin: true }
 		})
 		.when('/user', {
-			templateUrl: 'partials/userIndex.ejs',
+			templateUrl: '/public/partials/userIndex.ejs',
 			controller: 'UserIndexCtrl',
 			access: { requiredLogin: true }
 		})
 		.when('/user/:userId', {
-			templateUrl: '/partials/userEdit.ejs',
+			templateUrl: '/public/partials/userEdit.ejs',
 			controller: 'UserEditCtrl',
 			access: { requiredLogin: true }
 		})
 		.when('/flightGame', {
-			templateUrl: '/partials/flightGame.ejs',
+			templateUrl: '/public/partials/flightGame.ejs',
 			controller: 'FlightGameCtrl',
 			access: { requiredLogin: true }
 		})
@@ -52,12 +55,15 @@ myApp.config(function ($routeProvider, $locationProvider, $httpProvider) {
 	$locationProvider.html5Mode(true);
 });
 
-myApp.run(function($rootScope, $location, AuthenticationService) {
-    $rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
-		console.log(AuthenticationService);
-		console.log(nextRoute.access);
-        if (nextRoute.access.requiredLogin && !AuthenticationService.isLogged) {
-            $location.path("/login");
-        }
-    });
+myApp.config(function($httpProvider) {
+	$httpProvider.interceptors.push('authInterceptor');
+})
+
+myApp.run(function($rootScope, $location, $window, AuthenticationService) {
+	$rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
+		if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredLogin && 
+			!AuthenticationService.isLogged && !$window.sessionStorage.token) {
+			$location.path('/login');
+		}
+	});
 });

@@ -7,11 +7,14 @@ var api = require(__dirname + '/../controllers/api')
 // serve index
 app.get('/', index.index);
 
-//login
+// service config
+
+//login authentication
 app.post('/authenticate', api.login);
 
 // JSON API
-app.get('/api/getUsers', expressJwt({secret: app.config.session.secret}), api.getUsers);
+app.get('/api/getUsers', api.getUsers);
+app.get('/api/getConfig', api.getConfig);
 app.get('/api/getUser/:id', api.getUser);
 app.post('/api/updateUser/:id', api.updateUser);
 app.delete('/api/removeUser/:id', api.removeUser, api.getUsers);

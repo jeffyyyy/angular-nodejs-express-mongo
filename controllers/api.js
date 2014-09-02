@@ -27,6 +27,10 @@ exports.login = function(req, res, next) {
 	});
 };
 
+exports.getConfig = function(req, res, next) {
+	return res.json(app.config);
+}
+
 /*
  * Serve user info in JSON format to our AngularJS client
  */

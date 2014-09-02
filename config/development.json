@@ -2,6 +2,7 @@
 	"title": "Customer Portal [Development]",
 	"saltFactor": 10,
 	"server": {
+		"url": "http://localhost",
 		"port": 5040,
 		"cache": {
 			"maxAge": 0

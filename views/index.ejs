@@ -3,47 +3,25 @@
 		<meta charset="utf-8">
 		<title>Experiment of AngularJs/NodeJs/Express/MongoDB</title>
 
-		<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css"/>
-		<link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap-theme.min.css"/>
-		<link rel="stylesheet" href="/vendor/components-font-awesome/css/font-awesome.min.css"/>
-		<link rel="stylesheet" href="/css/app.css"/>
+		<link rel="stylesheet" href="/public/vendor/bootstrap/dist/css/bootstrap.min.css"/>
+		<link rel="stylesheet" href="/public/vendor/bootstrap/dist/css/bootstrap-theme.min.css"/>
+		<link rel="stylesheet" href="/public/vendor/components-font-awesome/css/font-awesome.min.css"/>
+		<link rel="stylesheet" href="/public/css/app.css"/>
 
-		<script type="text/javascript" src="/vendor/jquery/jquery.min.js"></script>
-		<script type="text/javascript" src="/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
-		<script src="/vendor/angular/angular.min.js"></script>
-		<script src="/vendor/angular-route/angular-route.min.js"></script>
-		<script src="/js/app.js"></script>
-		<script src="/js/factory.js"></script>
-		<script src="/js/services.js"></script>
-		<script src="/js/controllers.js"></script>
-		<script src="/js/filters.js"></script>
-		<script src="/js/directives.js"></script>
+		<script type="text/javascript" src="/public/vendor/jquery/jquery.min.js"></script>
+		<script type="text/javascript" src="/public/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/public/vendor/angular/angular.min.js"></script>
+		<script src="/public/vendor/angular-route/angular-route.min.js"></script>
+		<script src="/public/js/app.js"></script>
+		<script src="/public/js/services.js"></script>
+		<script src="/public/js/factory.js"></script>
+		<script src="/public/js/controllers.js"></script>
+		<script src="/public/js/filters.js"></script>
+		<script src="/public/js/directives.js"></script>
 	</head>
 	<body ng-controller="AppCtrl">
 
-	<header class="navbar navbar-static-top header" ng-hide="{{hideHeader}}">
-		<div class="container">
-			<nav class="collapse navbar-collapse" role="navigation">
-				<ul class="nav navbar-nav">
-					<li><a href="/home">home</a></li>
-					<li><a href="/user">User Management</a></li>
-					<li><a href="/user/new">Create User</a></li>
-					<li><a href="/flightGame">Fight Game</a></li>
-				</ul>
-			</nav>
-		</div>
-	</header>
-
 	<div ng-view></div>
 
-	<footer class="navbar navbar-static-bottom footer">
-		<div class="container">
-			<small>
-				<ul class="list-inline text-center">
-					<li><a class="white ">v0.0.1-beta</a></li>
-				</ul>
-			</small>
-		</div>
-	</footer>
 	</body>
 </html>

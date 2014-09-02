@@ -4,109 +4,84 @@
 
 var Controllers = angular.module('myApp.controllers', []);
 
-Controllers.controller('AppCtrl', function ($scope, $location) {
-	if (['/','/login'].indexOf($location.$$path) > -1) $scope.hideHeader = true;
+Controllers.controller('AppCtrl', function ($scope, $location, Config) {
+	Config.getConfig().success(function(data) {
+		$scope.config = data;
+	});
 });
 
-Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location) {
-	$scope.submit = function() {
-		$http({
-			method: 'POST',
-			url: '/authenticate',
-			data: {'username':this.username, 'password':this.password}
-		})
-		.success(function(data, status, headers, config){
-			$window.sessionStorage.token = data.token;
-			$scope.message = 'Welcome';
-			$location.path('/user');
-		})
-		.error(function(data, status, headers, config){
-			// Erase the token if the user fails to log in
+//login page
+Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location, AuthenticationService, User) {
+	$scope.login = function(username, password) {
+		if (username !== undefined && password !== undefined) {
+			User.login(username, password).success(function(data) {
+				AuthenticationService.isLogged = true;
+				$window.sessionStorage.token = data.token;
+				$location.path('/home');
+			});
+		}
+	}
+
+	$scope.logout = function() {
+		if (AuthenticationService.isLogged) {
+			AuthenticationService.isLogged = false;
 			delete $window.sessionStorage.token;
-			console.log(data, status, headers, config);
-			// Handle login errors here
-			$scope.message = 'Error: Invalid user or password';	
-		});
+			$location.path('login');
+		}
 	}
 });
 
-Controllers.controller('IndexCtrl', function ($scope, $http, $location) {
-	$http({
-		method: 'GET',
-		url: '/api/getUsers'
-	})
-	.success(function (data, status, headers, config) {
+// Home page
+Controllers.controller('IndexCtrl', function ($scope, $http, $location, User) {
+	User.getUsers().success(function (data, status, headers, config) {
 		$scope.users = data;
-		console.log(data, status, headers, config);
-	})
-	.error(function (data, status, headers, config) {
-		console.log("wtf");
-		console.log(data, status, headers, config);
+
+	}).error(function (data, status, headers, config) {
 		$scope.data = [];
 	});
 
 	$scope.removeUser = function(event, id) {
 		event.preventDefault();
-		$http({
-			method: 'DELETE',
-			url: '/api/removeUser/' + id,
-		})
-		.success(function (data, status, headers, config) {
+		User.removeUser(id).success(function (data, status, headers, config) {
 			$scope.users = data;
-		})
-		.error(function (data, status, headers, config) {
+
+		}).error(function (data, status, headers, config) {
 			alert(data.message);
 		});
 	}
 });
 
-Controllers.controller('UserIndexCtrl', function ($scope, $http, $location) {
-	$http({
-		method: 'GET',
-		url: '/api/getUsers'
-	})
-	.success(function (data, status, headers, config) {
+// User management page
+Controllers.controller('UserIndexCtrl', function ($scope, $http, $location, User) {
+	User.getUsers().success(function (data, status, headers, config) {
 		$scope.users = data;
-	})
-	.error(function (data, status, headers, config) {
+
+	}).error(function (data, status, headers, config) {
 		$scope.data = [];
 	});
 
 	$scope.removeUser = function(event, id) {
 		event.preventDefault();
-		$http({
-			method: 'DELETE',
-			url: '/api/removeUser/' + id,
-		})
-		.success(function (data, status, headers, config) {
+		User.removeUser(id).success(function (data, status, headers, config) {
 			$scope.users = data;
-		})
-		.error(function (data, status, headers, config) {
+
+		}).error(function (data, status, headers, config) {
 			alert(data.message);
 		});
 	}
 });
 
+// User edit page
 Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $routeParams, User) {
 	$scope.formCopy = User.createUser();
 
 	$scope.update = function(form) {
 		$scope.formCopy = angular.copy(form);
 		if (form) {
-			$http({
-				method: 'POST',
-				url: '/api/updateUser/' + $routeParams.userId,
-				headers: {'Content-Type': 'application/json'},
-				transformRequest: function(obj) {
-					return angular.toJson(obj)
-				},
-				data: form
-			})
-			.success(function (data, status, headers, config) {
-				$location.path('/');
-			})
-			.error(function (data, status, headers, config) {
-				
+			User.updateUser($routeParams.userId, form).success(function (data, status, headers, config) {
+				$location.path('/user');
+			}).error(function (data, status, headers, config) {
+				//todo
 			});
 		}
 	}
@@ -117,16 +92,12 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 
 	if ($routeParams.userId && $routeParams.userId.match(/^[0-9a-fA-F]{24}$/)) {
 		$scope.userAction = 'Update User';
-		$http({
-			method: 'GET',
-			url: '/api/getUser/' + $routeParams.userId
-		})
-		.success(function (data, status, headers, config) {
+		User.getUser($routeParams.userId).success(function (data, status, headers, config) {
 			$scope.form = data;
-		})
-		.error(function (data, status, headers, config) {
+
+		}).error(function (data, status, headers, config) {
 			alert(data.message);
-			$location.path('/');
+			$location.path('/user');
 		});
 	} else if ($routeParams.userId == 'new') {
 		$scope.userAction = 'Create User';

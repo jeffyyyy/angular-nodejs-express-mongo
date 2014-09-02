@@ -35,7 +35,7 @@ app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
  */
 
 // Include middleware.
-// app.use('/api', expressJwt({secret: app.config.session.secret}));
+app.use('/api', expressJwt({secret: app.config.session.secret}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -50,7 +50,7 @@ app.use(methodOverride(function(req, res){
 		return method
 	}
 }));
-app.use(serveStatic(__dirname + '/public', { maxAge: app.config.server.cache.maxAge }));
+app.use(serveStatic(__dirname, { maxAge: app.config.server.cache.maxAge }));
 app.use(morgan('dev'));
 app.use(express.session({ secret: 'keyboard cat' }));
 app.use(app.router);
