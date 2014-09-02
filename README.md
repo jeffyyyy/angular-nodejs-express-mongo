@@ -3,7 +3,7 @@ angular-nodejs-express-mongo
 
 An experiment of using Angularjs backed with nodejs/express and Mongodb.
 
-Containing basicfunctions such as user authentication and management.
+Containing basic functions such as user authentication and management.
 
 A few Steps to make it work:
 
