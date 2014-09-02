@@ -14,7 +14,7 @@ var User = require(__dirname + '/models/user')
 mongoose.connection.on('open', function() {
 	var user = new User();
 	user.name.first = "admin";
-	user.name.last = "admin";
+	user.name.last = "user";
 	user.email = "admin@admin.com";
 	user.password = "admin";
 	user.save(function(){

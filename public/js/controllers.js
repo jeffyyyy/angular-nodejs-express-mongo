@@ -5,10 +5,14 @@
 var Controllers = angular.module('myApp.controllers', []);
 
 Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, AuthenticationService, User) {
-	Config.getConfig().success(function(data) {
-		$scope.config = data;
+	$scope.AuthenticationService = AuthenticationService;
+	$scope.$watch('AuthenticationService.isLogged', function(newVal, oldVal, scope){
+		if (newVal) {
+			Config.getConfig().success(function(data) {
+				$scope.config = data;
+			});
+		}
 	});
-	
 	$scope.login = function(username, password) {
 		if (username !== undefined && password !== undefined) {
 			User.login(username, password).success(function(data) {
@@ -40,10 +44,9 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 // Home page
 Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, AuthenticationService, socket) {
 	User.getCurrentUser().success(function(data) {
-		// $scope.currentUser = data;
-		socket.on('init', function(data) {
-			$scope.name = data.name.first + ' ' + data.name.last;
-			// $scope.users = 
+		$scope.name = data.name.first + ' ' + data.name.last;
+		socket.emit('init', {
+			name: data.name.first + ' ' + data.name.last
 		});
 
 		socket.on('send:message', function(message) {
@@ -52,33 +55,25 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, Au
 
 		socket.on('user:join', function(data) {
 			$scope.messages.push({
-				user: 'chatroom',
+				user: 'Chatroom',
 				text: 'User ' + data.name + ' has joined.'
 			})
 		});
 
 		socket.on('user:left', function(data) {
 			$scope.messages.push({
-				user: 'chatroom',
+				user: 'Chatroom',
 				text: 'User ' + data.name + ' has left.'
 			});
-			var i, user;
-			for (i = 0; i<$scope.users.length; i++) {
-				user = $scope.users[i];
-				if (user === data.name) {
-					$scope.users.splice(i, 1);
-					break;
-				}
-			}
 		});
 
 		$scope.messages = [];
-
 		$scope.sendMessage = function() {
 			socket.emit('send:message', {
+				name: $scope.name,
 				message: $scope.message
 			});
-
+		
 			$scope.messages.push({
 				user: $scope.name,
 				text: $scope.message
