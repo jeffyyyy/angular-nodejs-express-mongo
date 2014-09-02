@@ -1,5 +1,5 @@
 {
-	"title": "Customer Portal [Development]",
+	"title": "Jeff's Experiment",
 	"saltFactor": 10,
 	"server": {
 		"url": "http://localhost",
@@ -13,50 +13,8 @@
 		"uri": "mongodb://localhost/angular"
 	},
 
-	"email": {
-		"support": "Customer Support <customer-portal@vocus.com.au>",
-		"sales": "Sales <sales@vocus.com.au>",
-		"feedback": "customer-portal@vocus.com.au",
-		"developers": "Developers <dev@vocus.net>",
-		"noreply": "No-Reply <noreply@vocus.com.au>"
-	},
-
-	"db": {
-		"uri": "tcp://rgadmin:rgAdm!n@dev02.vocus.com.au:5432/routing"
-	},
-
 	"session": {
 		"secret": "h789ok-gtr43ws3fg-bu89okjn-hgt54edfg",
 		"maxAge": 500
-	},
-
-	"salesforce": {
-		"user": "programmers@vocus.co.nz",
-		"token": "Evrdb2lhZo8YG2O84fwHdSDe4Ps3tHSS",
-		"vocusId": "00190000003xNzpAAE",
-		"oauth2": {
-			"clientId": "3MVG9Y6d_Btp4xp4dQIAiJVpJeBFRwsGfJnljFw0iUZ1WaoYg6XKCISl7ymtDbKKJqexl5GHZln4rQlBCLv1a",
-			"clientSecret": "365655523277183622",
-			"redirectUri": "/"
-		}
-	},
-
-	"pricingEngine": {
-		"uri": "http://dev01.vocus.com.au:8087/pricing"
-	},
-
-	"keychain": {
-		"uri": "https://dev02.vocus.com.au:3051"
-	},
-	
-	"serviceNow": {
-		"uri": "https://vocuscommunicationsdev.service-now.com",
-		"user": "VocusApiUser",
-		"pass": "U^tw9kbx6wM2@sq",
-		"cert": "development.pem"
-	},
-
-	"currency": {
-		"defaultISOCode" : "AUD"
 	}
 }
