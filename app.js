@@ -14,15 +14,16 @@ var express = require('express'),
 	nodemailer = require("nodemailer"),
 	pack = require(__dirname + '/package.json'),
 	cookieParser = require('cookie-parser'),
-  	compression = require('compression'),
-  	methodOverride = require('method-override'),
-  	bodyParser = require('body-parser'),
-  	morgan  = require('morgan'),
-  	serveStatic = require('serve-static'),
-  	expressJwt = require('express-jwt'),
-  	jwt = require('jsonwebtoken'),
-  	io = require('socket.io')(http),
-  	tokenManager = require('token-manager')
+	compression = require('compression'),
+	methodOverride = require('method-override'),
+	bodyParser = require('body-parser'),
+	morgan  = require('morgan'),
+	serveStatic = require('serve-static'),
+	expressJwt = require('express-jwt'),
+	jwt = require('jsonwebtoken'),
+	tokenManager = require('token-manager'),
+	io = require('socket.io')(http),
+	socket = require('./routes/socket.js');
 ;
 
 global.app = app;
@@ -88,18 +89,19 @@ app.use(function(err, req, res, next) {
 	return false;
 });
 
-io.on('connection', function(socket) {
-	console.log('a user connected');
+// io.on('connection', function(socket) {
+// 	console.log('a user connected');
 
-	socket.on('chat message', function(msg) {
-		console.log('message: ' + msg);
-		io.emit('chat message', msg);
-	});
+// 	socket.on('chat message', function(msg) {
+// 		console.log('message: ' + msg);
+// 		io.emit('chat message', msg);
+// 	});
 
-	socket.on('disconnect', function() {
-		console.log('user disconnected');
-	});
-});
+// 	socket.on('disconnect', function() {
+// 		console.log('user disconnected');
+// 	});
+// });
+io.sockets.on('connection', socket);
 
 /**
  * Start Server
