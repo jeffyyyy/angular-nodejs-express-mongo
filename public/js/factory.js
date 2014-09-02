@@ -23,6 +23,10 @@ Factories.factory('User', function($http, Config) {
             return $http.get('/api/logout');
         },
 
+        getCurrentUser: function() {
+        	return $http.get('/api/getCurrentUser');
+        },
+
 		getUser: function(id) {
 			return $http.get('/api/getUser/' + id);
 		},

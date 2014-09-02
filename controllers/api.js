@@ -65,6 +65,14 @@ exports.getUser = function(req, res, next) {
 	});
 };
 
+exports.getCurrentUser = function(req, res, next) {
+	var userId = req.user.id;
+	User.findById(userId, function(err, user) {
+		if(err) return next(err);
+		return res.json(user);
+	});
+};
+
 exports.updateUser = function(req, res, next) {
 	var formData = req.body
 	  , userId = req.params.id

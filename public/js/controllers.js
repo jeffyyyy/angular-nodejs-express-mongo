@@ -39,22 +39,25 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 
 // Home page
 Controllers.controller('IndexCtrl', function ($scope, $http, $location, User, AuthenticationService) {
-	User.getUsers().success(function (data, status, headers, config) {
-		$scope.users = data;
-
-	}).error(function (data, status, headers, config) {
-		$scope.data = [];
+	User.getCurrentUser().success(function(data) {
+		$scope.currentUser = data;
+		
 	});
 
-	$scope.removeUser = function(event, id) {
+	var socket = io();
+	$scope.messages = [];
+	$scope.chat = function(msg, event) {
 		event.preventDefault();
-		User.removeUser(id).success(function (data, status, headers, config) {
-			$scope.users = data;
-
-		}).error(function (data, status, headers, config) {
-			alert(data.message);
-		});
+		socket.emit('chat message', msg);
+		$scope.message = '';
+		// $scope.messages.push(msg);
 	}
+
+	
+	socket.on('chat message', function(msg) {
+		$scope.messages.push(msg);
+	});
+
 });
 
 // User management page
