@@ -4,6 +4,7 @@
 
 var myApp = angular.module('myApp', [
 	'ngRoute',
+	'ngAnimate',
 	'myApp.services',
 	'myApp.factory',
 	'myApp.controllers',

@@ -2,30 +2,66 @@
 
 <div class="container">
 <div class="well">
-<form novalidate class="form">
-	<div class="form-group ">
-		<label for="firstName">First Name</label>
-		<input type="text" class="form-control col-sm-4" id="firstName" placeholder="Enter first name" ng-model="form.name.first">
+<form novalidate class="form" name="edit_form">
+
+	<div class="form-group row">
+		<div class="col-sm-6">
+			<label for="username">Username*</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-user"></i></span>
+				<input type="text" class="form-control" ng-ensure-unique="username" placeholder="" value="" id="username" ng-model="form.username" required>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<label for="password">Password*</label>
+			<input type="password" class="form-control" id="password" placeholder="Enter password" ng-model="form.password" required="required">
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="lastName">Last Name</label>
-		<input type="text" class="form-control" id="lastName" placeholder="Enter last name" ng-model="form.name.last">
+	<div class="form-group row">
+		<div class="col-sm-6">
+			<label for="firstName">First Name*</label>
+			<input type="text" class="form-control" id="firstName" placeholder="Enter first name" ng-model="form.name.first" required>
+		</div>
+		<div class="col-sm-6">
+			<label for="lastName">Last Name*</label>
+			<input type="text" class="form-control" id="lastName" placeholder="Enter last name" ng-model="form.name.last" required>
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="email">Email</label>
-		<input type="text" class="form-control" id="email" placeholder="Enter email address" ng-model="form.email">
+
+	<div class="form-group row">
+		<div class="col-sm-6">
+			<label for="email">Email*</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+				<input type="text" class="form-control" placeholder="email@example.com" ng-minlength=3 ng-maxlength=30 name="email" id="email" ng-model="form.email" required ng-validate-email>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<label for="phone">Phone</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+				<input type="number" class="form-control" placeholder="Enter phone number" id="phone" ng-model="form.phone">
+			</div>
+		</div>
 	</div>
-	<div class="form-group">
-		<label for="password">Password</label>
-		<input type="password" class="form-control" id="password" placeholder="Enter password" ng-model="form.password">
-	</div>
-	<div class="form-group">
-		<label for="phone">Phone</label>
-		<input type="text" class="form-control" id="phone" placeholder="Enter phone number" ng-model="form.phone">
+
+	<div class="error-container cssFade" ng-show="edit_form.email.$dirty && edit_form.email.$blurred && edit_form.email.$error.invalidEmail">
+		<small class="error" ng-show="edit_form.email.$error.required">
+			Your email is required.
+		</small>
+		<small class="error" ng-show="edit_form.email.$error.minlength">
+			  Your email is required to be at least 3 characters
+		</small>
+		<small class="error" ng-show="edit_form.email.$error.invalidEmail">
+			 That is not a valid email. Please input a valid email.
+		</small>
+		<small class="error" ng-show="edit_form.email.$error.maxlength">
+			Your email cannot be longer than 30 characters
+		</small>
 	</div>
 	
 	<button class="btn btn-default" ng-click="update(form, $event)">{{userAction}}</button>
-	<button class="btn btn-default" ng-click="reset()">Reset</button>
+	<button class="btn btn-default" ng-click="reset()" >Reset</button>
 	
 </form>
 </div>

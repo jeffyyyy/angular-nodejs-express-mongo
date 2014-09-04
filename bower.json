@@ -19,6 +19,7 @@
     "angular": "~1.2.21",
     "components-font-awesome": "~4.1.0",
     "bootstrap": "~3.2.0",
-    "jquery": "1.10.0"
+    "jquery": "1.10.0",
+    "angular-animate": "~1.2.23"
   }
 }

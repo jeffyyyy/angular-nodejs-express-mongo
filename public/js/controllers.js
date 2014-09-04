@@ -128,15 +128,17 @@ Controllers.controller('UserIndexCtrl', function ($scope, $http, $location, User
 // User edit page
 Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $routeParams, User) {
 	$scope.formCopy = User.createUser();
-
+	
 	$scope.update = function(form) {
-		$scope.formCopy = angular.copy(form);
-		if (form) {
-			User.updateUser($routeParams.userId, form).success(function (data, status, headers, config) {
-				$location.path('/user');
-			}).error(function (data, status, headers, config) {
-				//todo
-			});
+		if($scope.edit_form.$valid) {
+			$scope.formCopy = angular.copy(form);
+			if (form) {
+				User.updateUser($routeParams.userId, form).success(function (data, status, headers, config) {
+					$location.path('/user');
+				}).error(function (data, status, headers, config) {
+					//todo
+				});
+			}
 		}
 	}
 

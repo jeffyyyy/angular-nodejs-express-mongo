@@ -14,18 +14,52 @@ html, body {
 }
 
 .text-right {
-    text-align: right !important;
+	text-align: right !important;
 }
 
 .text-center {
-    text-align: center !important;
+	text-align: center !important;
 }
 
 .text-left {
-    text-align: left !important;
+	text-align: left !important;
 }
 
 #bottom {
-  display: block;
-  margin-top: 40px;
+	display: block;
+	margin-top: 40px;
 }
+
+form .error-container {
+	color: #bb1f34;
+	font-size: 1.2em;
+	margin: 0.9em 0;
+}
+
+.ng-hide-add, .ng-hide-remove {
+	/* ensure visibility during the transition */
+	display: block !important; /* yes, important */
+}
+
+.cssFade {
+	transition: .7s linear all;
+	opacity: 1;
+}
+.cssFade.ng-hide {
+	opacity: 0;
+}
+
+.cssSlideUp {
+	transition: .7s linear all;
+	height: 80px;
+	overflow: hidden;
+}
+.cssSlideUp.ng-hide {
+	height:0;
+}
+/*input.ng-invalid {
+	border: 1px solid red;
+}
+input.ng-valid {
+	border: 1px solid green;
+}*/

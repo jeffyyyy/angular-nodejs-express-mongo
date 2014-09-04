@@ -9,7 +9,7 @@ exports.login = function(req, res, next) {
 
 	if (username == '' || password == '') return res.send(401);
 
-	User.findOne({email: username}, function(err, user) {
+	User.findOne({username: username}, function(err, user) {
 		if(err) {
 			console.log(err);
 			return send(401);
@@ -17,7 +17,7 @@ exports.login = function(req, res, next) {
 
 		user.comparePassword(password, function(isMatch) {
 			if (!isMatch) {
-				console.log("Attempt failed to login with " + user.email);
+				console.log("Attempt failed to login with " + user.username);
 				return res.send(401);
 			}
 
@@ -98,6 +98,7 @@ exports.updateUser = function(req, res, next) {
 		user.name.last = formData.name.last;
 		user.phone = formData.phone;
 		user.email = formData.email;
+		user.username = formData.username;
 		user.password = formData.password;
 
 		user.save(function(err, user) {
@@ -121,4 +122,20 @@ exports.removeUser = function(req, res, next) {
 	} else {
 		return res.send(401, {message: "user id is not valid"});
 	}
+};
+
+exports.checkUsername = function(req, res, next) {
+	var field = req.params.field || '';
+	var username = req.body.username || '';
+
+	if (!field || !username) return send({isUnique: false});
+	
+	User.findOne().where(field, username).exec(function(err, user) {
+		if (err) return next(err);
+		if(user) {
+			return res.send({isUnique: false});
+		} else {
+			return res.send({isUnique: true});
+		}
+	});
 };
