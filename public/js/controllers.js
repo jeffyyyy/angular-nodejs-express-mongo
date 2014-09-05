@@ -158,6 +158,7 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 	} else if ($routeParams.userId == 'new') {
 		$scope.userAction = 'Create User';
 	}
+
 });
 
 Controllers.controller('FlightGameCtrl', function($scope, $http) {

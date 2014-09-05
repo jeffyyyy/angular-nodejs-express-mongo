@@ -33,7 +33,7 @@ html, body {
 form .error-container {
 	color: #bb1f34;
 	font-size: 1.2em;
-	margin: 0.9em 0;
+	margin: 0.3em 0;
 }
 
 .ng-hide-add, .ng-hide-remove {
@@ -42,7 +42,7 @@ form .error-container {
 }
 
 .cssFade {
-	transition: .7s linear all;
+	/*transition: .5s linear all;*/
 	opacity: 1;
 }
 .cssFade.ng-hide {

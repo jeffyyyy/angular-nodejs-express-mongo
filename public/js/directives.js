@@ -28,28 +28,51 @@ Directives.directive('slash', function($interval) {
 	}
 });
 
-Directives.directive('ngEnsureUnique', function($http) {
+Directives.directive('ngBlur', function() {
 	return {
 		require: 'ngModel',
 		link: function(scope, ele, attrs, ctrl) {
-			 scope.$watch(attrs.ngModel, function() {
-				if (ctrl.$modelValue) {
-					$http({
-						method: 'POST',
-						url: '/api/check/' + attrs.ensureUnique,
-						data: {'username': ctrl.$modelValue}
-					})
-					.success(function(data, status, header, config) {
-						ctrl.$setValidity('unique', data.isUnique);
-					})
-					.error(function(data, status, headers, config) {
-						ctrl.$setValidity('unique', false);
-					});
-				}
+			ctrl.$setValidity('blurred', true);
+			ele.on('keydown', function(evt) {
+				scope.$apply(function() {
+					ctrl.$setValidity('blurred', true);
+				});
+			});
+			ele.on('blur', function(evt) {
+				scope.$apply(function() {
+					ctrl.$setValidity('blurred', false);
+				});
 			});
 		}
 	}
 });
+
+Directives.directive('ngCheckExist', function($http) {
+	return {
+		require: 'ngModel',
+		link: function(scope, ele, attrs, ctrl) {
+			ctrl.$setValidity('userExist', true);
+			
+			scope.$watch(attrs.ngModel, function() {
+				if (ctrl.$viewValue) {
+					$http({
+						method: 'POST',
+						url: '/api/check/' + attrs.ngCheckExist,
+						data: {'username': ctrl.$modelValue}
+					})
+					.success(function(data, status, header, config) {
+							ctrl.$setValidity('userExist', !data.userExist);
+					})
+					.error(function(data, status, headers, config) {
+							ctrl.$setValidity('userExist', false);
+					});
+				}
+			});
+
+		}
+	}
+});
+
 
 Directives.directive('ngValidateEmail', function() {
 	return {
@@ -58,21 +81,6 @@ Directives.directive('ngValidateEmail', function() {
 			var regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			scope.$watch(attrs.ngModel, function() {
 				ctrl.$setValidity('invalidEmail', regexp.test(ctrl.$viewValue));
-
-				var BLUR_CLASS = "ng-blurred";
-				ctrl.$blurred = false;
-				ele.on('keydown', function(evt) {
-					ele.removeClass(BLUR_CLASS);
-					scope.$apply(function() {
-						ctrl.$blurred = false;
-					});
-				});
-				ele.on('blur', function(evt) {
-					ele.addClass(BLUR_CLASS);
-					scope.$apply(function() {
-						ctrl.$blurred = true;
-					});
-				});
 			});
 		}
 	}

@@ -128,14 +128,14 @@ exports.checkUsername = function(req, res, next) {
 	var field = req.params.field || '';
 	var username = req.body.username || '';
 
-	if (!field || !username) return send({isUnique: false});
+	if (!field || !username) return send({userExist: false});
 	
 	User.findOne().where(field, username).exec(function(err, user) {
 		if (err) return next(err);
 		if(user) {
-			return res.send({isUnique: false});
+			return res.send({userExist: true});
 		} else {
-			return res.send({isUnique: true});
+			return res.send({userExist: false});
 		}
 	});
 };
