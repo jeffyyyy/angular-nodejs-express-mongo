@@ -16,6 +16,7 @@ mongoose.connection.on('open', function() {
 	user.name.first = "admin";
 	user.name.last = "user";
 	user.email = "admin@admin.com";
+	user.username = "admin@admin.com";
 	user.password = "admin";
 	user.save(function(){
 		console.log("Init successfully");

@@ -150,7 +150,7 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 		$scope.userAction = 'Update User';
 		User.getUser($routeParams.userId).success(function (data, status, headers, config) {
 			$scope.form = data;
-
+			$scope.userId = $routeParams.userId;
 		}).error(function (data, status, headers, config) {
 			alert(data.message);
 			$location.path('/user');

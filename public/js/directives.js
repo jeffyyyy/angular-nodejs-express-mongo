@@ -32,43 +32,43 @@ Directives.directive('ngBlur', function() {
 	return {
 		require: 'ngModel',
 		link: function(scope, ele, attrs, ctrl) {
-			ctrl.$setValidity('blurred', true);
+			ctrl.$blurred = false;
 			ele.on('keydown', function(evt) {
 				scope.$apply(function() {
-					ctrl.$setValidity('blurred', true);
+					ctrl.$blurred = false;
 				});
 			});
 			ele.on('blur', function(evt) {
 				scope.$apply(function() {
-					ctrl.$setValidity('blurred', false);
+					ctrl.$blurred = true;
 				});
 			});
 		}
 	}
 });
 
-Directives.directive('ngCheckExist', function($http) {
+Directives.directive('ngCheckExist', function($http, $routeParams) {
 	return {
 		require: 'ngModel',
 		link: function(scope, ele, attrs, ctrl) {
 			ctrl.$setValidity('userExist', true);
-			
-			scope.$watch(attrs.ngModel, function() {
-				if (ctrl.$viewValue) {
-					$http({
-						method: 'POST',
-						url: '/api/check/' + attrs.ngCheckExist,
-						data: {'username': ctrl.$modelValue}
-					})
-					.success(function(data, status, header, config) {
-							ctrl.$setValidity('userExist', !data.userExist);
-					})
-					.error(function(data, status, headers, config) {
-							ctrl.$setValidity('userExist', false);
-					});
-				}
-			});
-
+			if ($routeParams.userId == 'new') {
+				scope.$watch(attrs.ngModel, function() {
+					if (ctrl.$viewValue) {
+						$http({
+							method: 'POST',
+							url: '/api/check/' + attrs.ngCheckExist,
+							data: {'username': ctrl.$modelValue}
+						})
+						.success(function(data, status, header, config) {
+								ctrl.$setValidity('userExist', !data.userExist);
+						})
+						.error(function(data, status, headers, config) {
+								ctrl.$setValidity('userExist', false);
+						});
+					}
+				});
+			}
 		}
 	}
 });
@@ -78,9 +78,14 @@ Directives.directive('ngValidateEmail', function() {
 	return {
 		require: 'ngModel',
 		link: function(scope, ele, attrs, ctrl) {
+			ctrl.$setValidity('invalidEmail', true);
 			var regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 			scope.$watch(attrs.ngModel, function() {
-				ctrl.$setValidity('invalidEmail', regexp.test(ctrl.$viewValue));
+				if (!ctrl.$modelValue) {
+					ctrl.$setValidity('invalidEmail', true);
+				} else {
+					ctrl.$setValidity('invalidEmail', regexp.test(ctrl.$viewValue));
+				}
 			});
 		}
 	}

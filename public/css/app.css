@@ -42,7 +42,7 @@ form .error-container {
 }
 
 .cssFade {
-	/*transition: .5s linear all;*/
+	transition: .5s linear all;
 	opacity: 1;
 }
 .cssFade.ng-hide {
