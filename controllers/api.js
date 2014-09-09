@@ -20,7 +20,7 @@ exports.login = function(req, res, next) {
 				console.log("Attempt failed to login with " + user.username);
 				return res.send(401);
 			}
-
+			req.user = user;
 			var token = jwt.sign({id: user._id}, app.config.session.secret, {expiresInMinutes: tokenManager.TOKEN_EXPIRATION});
 			res.json({token: token});
 		});
@@ -30,10 +30,7 @@ exports.login = function(req, res, next) {
 
 exports.logout = function(req, res, next) {
 	if (req.user) {
-		console.log(req.user, req.headers);
-		tokenManager.expireToken(req.headers);
-
-		delete req.user;	
+		delete req.user;
 		return res.send(200);
 	}
 	else {

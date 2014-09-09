@@ -21,14 +21,18 @@ var express = require('express'),
 	serveStatic = require('serve-static'),
 	expressJwt = require('express-jwt'),
 	jwt = require('jsonwebtoken'),
-	tokenManager = require('token-manager'),
+	// tokenManager = require('token-manager'),
 	io = require('socket.io')(http),
-	socket = require('./routes/socket.js');
+	socket = require('./routes/socket.js')
+	usernames = {},
+	rooms = ['room1', 'room2', 'room3']
 ;
 
 global.app = app;
 app.config = config;
 app.logger = console;
+app.usernames = usernames;
+app.io = io;
 
 //use nodemailer to send email
 app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
@@ -38,15 +42,14 @@ app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
  */
 
 // Include middleware.
-
-app.use('/api', expressJwt({secret: app.config.session.secret}), tokenManager.verifyToken);
+app.use('/api', expressJwt({secret: app.config.session.secret}));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(compression());
-app.use(methodOverride(function(req, res){
+app.use(methodOverride(function(req, res) {
 	if (req.body && typeof req.body === 'object' && '_method' in req.body) {
 		// look in urlencoded POST bodies and delete it
 		var method = req.body._method

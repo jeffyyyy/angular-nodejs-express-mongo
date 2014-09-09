@@ -6,7 +6,7 @@ var Controllers = angular.module('myApp.controllers', []);
 
 Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, AuthenticationService, User) {
 	$scope.AuthenticationService = AuthenticationService;
-	$scope.$watch('AuthenticationService.isLogged', function(newVal, oldVal, scope){
+	$scope.$watch('AuthenticationService.userInfo', function(newVal, oldVal, scope){
 		if (newVal) {
 			Config.getConfig().success(function(data) {
 				$scope.config = data;
@@ -16,7 +16,8 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 	$scope.login = function(username, password) {
 		if (username !== undefined && password !== undefined) {
 			User.login(username, password).success(function(data) {
-				AuthenticationService.isLogged = true;
+				AuthenticationService.userInfo = data.token;
+				console.log(AuthenticationService.userInfo);
 				$window.sessionStorage.token = data.token;
 				$location.path('/home');
 			});
@@ -24,9 +25,10 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 	}
 
 	$scope.logout = function() {
-		if (AuthenticationService.isLogged) {
+		console.log("logout", AuthenticationService.getUserInfo());
+		if (AuthenticationService.getUserInfo()) {
 			User.logout().success(function(data) {
-				AuthenticationService.isLogged = false;
+				AuthenticationService.userInfo = null;
 				delete $window.sessionStorage.token;
 				$location.path('/login');
 			}).error(function(status, data) {
@@ -43,57 +45,39 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 
 // Home page
 Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket) {
+	console.log("logged in", AuthenticationService.getUserInfo());
 	User.getCurrentUser().success(function(data) {
-		$scope.name = data.name.first + ' ' + data.name.last;
-		socket.emit('init', {
-			name: data.name.first + ' ' + data.name.last
-		});
-
-		socket.on('send:message', function(message) {
-			$scope.messages.push(message);
-			$scope.stopFlash();
-		});
-
-		socket.on('user:join', function(data) {
-			$scope.messages.push({
-				user: 'Chatroom',
-				text: 'User ' + data.name + ' has joined.',
-				class: 'alert-success'
-			});
-			$scope.stopFlash();
-			$location.hash('bottom');
-	        $anchorScroll();
-		});
-
-		socket.on('user:left', function(data) {
-			$scope.messages.push({
-				user: 'Chatroom',
-				text: 'User ' + data.name + ' has left.',
-				class: 'alert-danger'
-			});
-			$scope.stopFlash();
-			$location.hash('bottom');
-	        $anchorScroll();
-		});
-
-		$scope.messages = [];
-		$scope.sendMessage = function() {
-			socket.emit('send:message', {
-				name: $scope.name,
-				message: $scope.message
-			});
+		var username = data.name.first + ' ' + data.name.last;
 		
-			$scope.messages.push({
-				user: $scope.name,
-				text: $scope.message
-			});
-			
-			$scope.stopFlash();
+		$scope.messages = [];
+		$scope.users = [];
 
+		socket.emit('adduser', data);
+
+		socket.on('updatechat', function(username, message) {
+			var mes = {};
+			if (username == 'SERVER') {
+				mes = {user: username, text:message, class: 'alert-success'};
+			} else {
+				mes = {user: username, text:message};
+			}
+			$scope.messages.push({
+				user: username,
+				text: message
+			});
+			$scope.stopFlash();
+		});
+
+		socket.on('updateuser', function(data) {
+			// console.log(usernames);
+			$scope.users = data;
+		})
+
+		$scope.sendMessage = function() {
+			socket.emit('sendchat', $scope.message);
 			$location.hash('bottom');
 	        $anchorScroll();
 			$scope.message = '';
-			
 		}
 
 		$scope.stopFlash = function() {

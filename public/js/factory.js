@@ -9,6 +9,7 @@ Factories.factory('User', function($http, Config) {
 		createUser: function() {
 			var user =  {
 							name: { first: '', last: '' },
+							username: '',
 							email: '',
 							phone: ''
 						};
@@ -20,12 +21,12 @@ Factories.factory('User', function($http, Config) {
 		},
 
 		logout: function() {
-            return $http.get('/api/logout');
-        },
+			return $http.post('/api/logout');
+		},
 
-        getCurrentUser: function() {
-        	return $http.get('/api/getCurrentUser');
-        },
+		getCurrentUser: function() {
+			return $http.get('/api/getCurrentUser');
+		},
 
 		getUser: function(id) {
 			return $http.get('/api/getUser/' + id);
@@ -72,33 +73,43 @@ Factories.factory('authInterceptor', function($q, $window, AuthenticationService
 	};
 });
 
-Factories.factory('AuthenticationService', function() {
-    var auth = {
-        isLogged: false
-    }
- 
-    return auth;
+Factories.factory('AuthenticationService', function($window) {
+	var userInfo;
+	function init() {
+		if ($window.sessionStorage.token) {
+			userInfo = $window.sessionStorage.token;
+		}
+	}
+
+ 	function getUserInfo() {
+		return userInfo;
+	}
+
+	return {
+		getUserInfo: getUserInfo,
+		init: init
+	}
 });
 
 Factories.factory('socket', function($rootScope) {
 	var socket = io.connect();
 	return {
+		emit: function(eventName, data, callback) {
+			socket.emit(eventName, data, function() {
+			var args = arguments;
+			$rootScope.$apply(function() {
+				if (callback) {
+					callback.apply(socket, args);
+					}
+				});
+			});
+		},
 		on: function(eventName, callback) {
 			socket.on(eventName, function() {
 				var args = arguments;
 				$rootScope.$apply(function() {
 					callback.apply(socket, args);
 				})
-			});
-		},
-		emit: function(eventName, data, callback) {
-			socket.emit(eventName, data, function() {
-				var args = arguments;
-				$rootScope.$apply(function() {
-					if (callback) {
-						callback.apply(socket, args);
-					}
-				});
 			});
 		}
 	}

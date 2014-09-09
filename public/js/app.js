@@ -16,19 +16,19 @@ myApp.config(function ($routeProvider, $locationProvider) {
 	$routeProvider
 		.when('/', {
 			templateUrl: '/public/partials/login.ejs',
-			controller: 'LoginCtrl',
+			controller: 'AppCtrl',
 			access: { requiredLogin: false }
 		})
 		.when('/login', {
 			templateUrl: '/public/partials/login.ejs',
-			controller: 'LoginCtrl',
+			controller: 'AppCtrl',
 			access: { requiredLogin: false }
 		})
-		.when('/logout', {
-			templateUrl: '/public/partials/login.ejs',
-			controller: 'AppCtrl',
-			access: { requiredLogin: true }
-		})
+		// .when('/logout', {
+		// 	templateUrl: '/public/partials/login.ejs',
+		// 	controller: 'AppCtrl',
+		// 	access: { requiredLogin: true }
+		// })
 		.when('/home', {
 			templateUrl: '/public/partials/index.ejs',
 			controller: 'IndexCtrl',
@@ -62,8 +62,9 @@ myApp.config(function($httpProvider) {
 
 myApp.run(function($rootScope, $location, $window, AuthenticationService) {
 	$rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {
+		AuthenticationService.init();
 		if (nextRoute != null && nextRoute.access != null && nextRoute.access.requiredLogin && 
-			!AuthenticationService.isLogged && !$window.sessionStorage.token) {
+			!AuthenticationService.userInfo && !$window.sessionStorage.token) {
 			$location.path('/login');
 		}
 	});
