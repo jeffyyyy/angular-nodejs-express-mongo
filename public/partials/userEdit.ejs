@@ -3,7 +3,6 @@
 <div class="container">
 <div class="well">
 <form novalidate class="form" name="edit_form">
-
 	<div class=" row">
 		<div class="col-sm-6">
 			<div class="form-group">
@@ -49,6 +48,35 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="form-group row">
+		<div class="col-sm-6">
+			<label for="email">Email*</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
+				<input type="text" class="form-control" placeholder="email@example.com" name="email" id="email" ng-model="form.email" required ng-blur ng-validate-email>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<label for="phone">Phone (optional)</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
+				<input type="text" class="form-control" placeholder="Enter phone number" id="phone" ng-model="form.phone">
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group row">
+		<div class="col-sm-12 error-container " ng-show="edit_form.email.$dirty && edit_form.email.$blurred && edit_form.email.$error.invalidEmail">
+			<small class="error" ng-show="edit_form.email.$error.required">
+				Your email is required.
+			</small>
+			<small class="error" ng-show="edit_form.email.$error.invalidEmail">
+				 That is not a valid email.
+			</small>
+		</div>
+	</div>
+
 	<div class="row">
 		<div class="col-sm-6">
 			<div class="form-group">
@@ -89,37 +117,8 @@
 			</div>
 		</div>
 	</div>
-	
-
-	<div class="form-group row">
-		<div class="col-sm-6">
-			<label for="email">Email*</label>
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-				<input type="text" class="form-control" placeholder="email@example.com" name="email" id="email" ng-model="form.email" required ng-blur ng-validate-email>
-			</div>
-		</div>
-		<div class="col-sm-6">
-			<label for="phone">Phone (optional)</label>
-			<div class="input-group">
-				<span class="input-group-addon"><i class="fa fa-mobile"></i></span>
-				<input type="text" class="form-control" placeholder="Enter phone number" id="phone" ng-model="form.phone">
-			</div>
-		</div>
-	</div>
-
-	<div class="form-group row">
-		<div class="col-sm-12 error-container " ng-show="edit_form.email.$dirty && edit_form.email.$blurred && edit_form.email.$error.invalidEmail">
-			<small class="error" ng-show="edit_form.email.$error.required">
-				Your email is required.
-			</small>
-			<small class="error" ng-show="edit_form.email.$error.invalidEmail">
-				 That is not a valid email.
-			</small>
-		</div>
-	</div>
 	<button class="btn btn-default" ng-click="update(form, $event)">{{userAction}}</button>
-	<button class="btn btn-default" ng-click="reset()" >Reset</button>
+	<button class="btn btn-default" ng-click="reset(form)" >Reset</button>
 	
 </form>
 </div>

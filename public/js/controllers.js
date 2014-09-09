@@ -17,7 +17,6 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 		if (username !== undefined && password !== undefined) {
 			User.login(username, password).success(function(data) {
 				AuthenticationService.userInfo = data.token;
-				console.log(AuthenticationService.userInfo);
 				$window.sessionStorage.token = data.token;
 				$location.path('/home');
 			});
@@ -25,7 +24,6 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 	}
 
 	$scope.logout = function() {
-		console.log("logout", AuthenticationService.getUserInfo());
 		if (AuthenticationService.getUserInfo()) {
 			User.logout().success(function(data) {
 				AuthenticationService.userInfo = null;
@@ -45,7 +43,6 @@ Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location,
 
 // Home page
 Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket) {
-	console.log("logged in", AuthenticationService.getUserInfo());
 	User.getCurrentUser().success(function(data) {
 		var username = data.name.first + ' ' + data.name.last;
 		
@@ -69,7 +66,6 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorS
 		});
 
 		socket.on('updateuser', function(data) {
-			// console.log(usernames);
 			$scope.users = data;
 		})
 
@@ -126,8 +122,9 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 		}
 	}
 
-	$scope.reset = function() {
+	$scope.reset = function(form) {
 		$scope.form = angular.copy($scope.formCopy);
+		$scope.form.username = form.username ? form.username : '';
 	}
 
 	if ($routeParams.userId && $routeParams.userId.match(/^[0-9a-fA-F]{24}$/)) {
@@ -141,6 +138,7 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 		});
 	} else if ($routeParams.userId == 'new') {
 		$scope.userAction = 'Create User';
+		$scope.userId = 'new';
 	}
 
 });
