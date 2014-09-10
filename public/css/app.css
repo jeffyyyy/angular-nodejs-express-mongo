@@ -61,7 +61,7 @@ form .error-container {
 .cssSlideUp.ng-hide {
 	height:0;
 }
-canvas#paint{
+canvas{
 	background-color: #FFF;
   box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);
 }
