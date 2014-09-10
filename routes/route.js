@@ -7,8 +7,6 @@ var api = require(__dirname + '/../controllers/api')
 // serve index
 app.get('/', index.index);
 
-// service config
-
 //login authentication
 app.post('/authenticate', api.login);
 

@@ -9,6 +9,10 @@ html, body {
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
+.view-container{
+	min-height:500px;
+}
+
 .white {
 	color:white;
 }
@@ -56,6 +60,10 @@ form .error-container {
 }
 .cssSlideUp.ng-hide {
 	height:0;
+}
+canvas#paint{
+	background-color: #FFF;
+  box-shadow: 0 9px 20px -5px rgba(0,0,0,0.8);
 }
 /*input.ng-invalid {
 	border: 1px solid red;

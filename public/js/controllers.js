@@ -36,11 +36,6 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 	}
 });
 
-//login page
-Controllers.controller('LoginCtrl', function ($scope, $http, $window, $location, AuthenticationService, User) {
-
-});
-
 // Home page
 Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket) {
 	User.getCurrentUser().success(function(data) {
@@ -140,9 +135,5 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 		$scope.userAction = 'Create User';
 		$scope.userId = 'new';
 	}
-
-});
-
-Controllers.controller('FlightGameCtrl', function($scope, $http) {
 
 });

@@ -24,11 +24,6 @@ myApp.config(function ($routeProvider, $locationProvider) {
 			controller: 'AppCtrl',
 			access: { requiredLogin: false }
 		})
-		// .when('/logout', {
-		// 	templateUrl: '/public/partials/login.ejs',
-		// 	controller: 'AppCtrl',
-		// 	access: { requiredLogin: true }
-		// })
 		.when('/home', {
 			templateUrl: '/public/partials/index.ejs',
 			controller: 'IndexCtrl',
@@ -46,7 +41,10 @@ myApp.config(function ($routeProvider, $locationProvider) {
 		})
 		.when('/flightGame', {
 			templateUrl: '/public/partials/flightGame.ejs',
-			controller: 'FlightGameCtrl',
+			access: { requiredLogin: true }
+		})
+		.when('/paintBoard', {
+			templateUrl: '/public/partials/paintBoard.ejs',
 			access: { requiredLogin: true }
 		})
 		.otherwise({
@@ -58,7 +56,7 @@ myApp.config(function ($routeProvider, $locationProvider) {
 
 myApp.config(function($httpProvider) {
 	$httpProvider.interceptors.push('authInterceptor');
-})
+});
 
 myApp.run(function($rootScope, $location, $window, AuthenticationService) {
 	$rootScope.$on("$routeChangeStart", function(event, nextRoute, currentRoute) {

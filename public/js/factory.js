@@ -75,6 +75,7 @@ Factories.factory('authInterceptor', function($q, $window, AuthenticationService
 
 Factories.factory('AuthenticationService', function($window) {
 	var userInfo;
+	
 	function init() {
 		if ($window.sessionStorage.token) {
 			userInfo = $window.sessionStorage.token;
