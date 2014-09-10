@@ -11,7 +11,6 @@ var express = require('express'),
 	ejs = require('ejs'),
 	config = require(__dirname + '/config/' + app.get('env')),
 	Session = require('connect-mongo')(express),
-	nodemailer = require("nodemailer"),
 	pack = require(__dirname + '/package.json'),
 	cookieParser = require('cookie-parser'),
 	compression = require('compression'),
@@ -20,8 +19,6 @@ var express = require('express'),
 	morgan  = require('morgan'),
 	serveStatic = require('serve-static'),
 	expressJwt = require('express-jwt'),
-	jwt = require('jsonwebtoken'),
-	// tokenManager = require('token-manager'),
 	io = require('socket.io')(http),
 	socket = require('./routes/socket.js')
 	usernames = {},
@@ -33,9 +30,6 @@ app.config = config;
 app.logger = console;
 app.usernames = usernames;
 app.io = io;
-
-//use nodemailer to send email
-app.email = nodemailer.createTransport("Sendmail", "/usr/sbin/sendmail");
 
 /**
  * Configuration

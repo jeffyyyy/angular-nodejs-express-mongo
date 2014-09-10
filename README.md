@@ -23,7 +23,7 @@ F. run command 'node app.js' to start the application, the view in browser with 
 
 Code distribution:
 
-NodeJS code is "app.js" and in folder "routes" and "controllers"
+NodeJS code is "app.js" and in folder "routes" and "controllers". Server side route file is "routes/route.js"
 
 MongoDb related code is in folder "models" and "schemas"
 
