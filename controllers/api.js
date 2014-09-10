@@ -1,7 +1,6 @@
 var User = require(__dirname + '/../models/user.js');
 var async = require('async');
 var jwt = require('jsonwebtoken');
-var tokenManager = require('token-manager');
 
 exports.login = function(req, res, next) {
 	var username = req.body.username || '';
