@@ -18,10 +18,10 @@ A few Steps to make it work:
 	D. run command 'bower install'
 
 	E. run command 'node init.js' 
-	(Create a sample user with username admin@admin.com, and password is admin)
+	   (Create a sample user with username admin@admin.com, and password is admin)
 
 	F. run command 'node app.js' to start the application, 
-	the view in browser with url http://localhost:5040
+	   then view in browser with url http://localhost:5040
 
 
 Code distribution:
@@ -32,8 +32,8 @@ Code distribution:
 
 	MongoDb related code is in folder "models" and "schemas"
 
-	AngularJs code is in folder "public/js", and Angular partial views 
-	is in folder "public/partials"
+	AngularJs code is in folder "public/js".
+	Angular partial views is in folder "public/partials"
 
 	Main index page is in folder "views"
 
