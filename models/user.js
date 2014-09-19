@@ -1,3 +1,11 @@
+/*!
+ * Jeff's Experiment
+ *
+ * User Model
+ * @author Jeff Yu
+ * @created 23/08/2014
+ */
+
 var mongoose = require('mongoose')
   , UserSchema = require(__dirname + '/../schemas/user')
   , bcrypt = require('bcrypt')

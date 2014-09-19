@@ -81,12 +81,21 @@ Directives.directive('ngValidateEmail', function() {
 		link: function(scope, ele, attrs, ctrl) {
 			ctrl.$setValidity('invalidEmail', true);
 			var regexp = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-			scope.$watch(attrs.ngModel, function() {
-				if (!ctrl.$modelValue) {
+
+			ele.on('keydown', function(evt) {
+				scope.$apply(function() {
 					ctrl.$setValidity('invalidEmail', true);
-				} else {
-					ctrl.$setValidity('invalidEmail', regexp.test(ctrl.$viewValue));
-				}
+				});
+			});
+
+			ele.on('blur', function(evt) {
+				scope.$apply(function() {
+					if (!ctrl.$modelValue) {
+						ctrl.$setValidity('invalidEmail', true);
+					} else {
+						ctrl.$setValidity('invalidEmail', regexp.test(ctrl.$viewValue));
+					}
+				});
 			});
 		}
 	}

@@ -9,13 +9,13 @@
 						<label for="username">Username*</label>
 						<div class="input-group">
 							<span class="input-group-addon"><i class="fa fa-user"></i></span>
-							<input type="text" class="form-control" name="username" ng-blur ng-minlength=3 ng-check-exist="username" placeholder="" value="" id="username" ng-model="form.username" required ng-disabled="{{userId!='new'}}">
+							<input type="text" class="form-control" name="username" ng-minlength=3 ng-check-exist="username" placeholder="" value="" id="username" ng-model="form.username" required ng-disabled="{{userId!='new'}}">
 							<input type="hidden" name="userId" value="" ng-model="form._id" />
 						</div>
 					</div>
 					
 					<div class="form-group row">
-						<div class="col-sm-12 error-container" ng-show="edit_form.username.$invalid && edit_form.username.$dirty && edit_form.username.$blurred && edit_form.username.$error.userExist">
+						<div class="col-sm-12 error-container" ng-show="edit_form.username.$invalid && edit_form.username.$dirty && edit_form.username.$error.userExist || edit_form.submitted">
 							<small class="error" ng-show="edit_form.username.$error.required">
 								Your username is required.
 							</small>
@@ -34,10 +34,10 @@
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="password">Password*</label>
-						<input type="password" class="form-control" name="password" ng-blur id="password" ng-minlength=3 placeholder="Enter password" ng-model="form.password" required="required">
+						<input type="password" class="form-control" name="password" id="password" ng-minlength=3 placeholder="Enter password" ng-model="form.password" required="required">
 					</div>
 					<div class="form-group row ">
-						<div class="col-sm-12 error-container" ng-show="edit_form.password.$invalid && edit_form.password.$dirty && edit_form.password.$blurred">
+						<div class="col-sm-12 error-container" ng-show="edit_form.password.$invalid && edit_form.password.$dirty || edit_form.submitted">
 							<small class="error" ng-show="edit_form.password.$error.required">
 								Your password is required.
 							</small>
@@ -54,7 +54,7 @@
 					<label for="email">Email*</label>
 					<div class="input-group">
 						<span class="input-group-addon"><i class="fa fa-envelope-o"></i></span>
-						<input type="text" class="form-control" placeholder="email@example.com" name="email" id="email" ng-model="form.email" required ng-blur ng-validate-email>
+						<input type="text" class="form-control" placeholder="email@example.com" name="email" id="email" ng-model="form.email" required ng-validate-email>
 					</div>
 				</div>
 				<div class="col-sm-6">
@@ -67,7 +67,7 @@
 			</div>
 
 			<div class="form-group row">
-				<div class="col-sm-12 error-container " ng-show="edit_form.email.$dirty && edit_form.email.$blurred && edit_form.email.$error.invalidEmail">
+				<div class="col-sm-12 error-container " ng-show="edit_form.email.$dirty && edit_form.email.$error.invalidEmail || edit_form.submitted">
 					<small class="error" ng-show="edit_form.email.$error.required">
 						Your email is required.
 					</small>
@@ -81,15 +81,12 @@
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="firstName">First Name*</label>
-						<input type="text" class="form-control" id="firstName" name="firstname" ng-minlength=3 ng-maxlength=20 placeholder="Enter first name" ng-model="form.name.first" ng-blur required>
+						<input type="text" class="form-control" id="firstName" name="firstname" ng-maxlength=20 placeholder="Enter first name" ng-model="form.name.first" required>
 					</div>
 					<div class="form-group row">
-						<div class="col-sm-12 error-container" ng-show="edit_form.firstname.$invalid && edit_form.firstname.$dirty && edit_form.firstname.$blurred">
+						<div class="col-sm-12 error-container" ng-show="edit_form.firstname.$invalid && edit_form.firstname.$dirty || edit_form.submitted">
 							<small class="error" ng-show="edit_form.firstname.$error.required">
 								Your firstname is required.
-							</small>
-							<small class="error" ng-show="edit_form.firstname.$error.minlength">
-								Your firstname is required to be at least 3 characters
 							</small>
 							<small class="error" ng-show="edit_form.firstname.$error.maxlength">
 								Your firstname cannot be longer than 20 characters
@@ -100,15 +97,12 @@
 				<div class="col-sm-6">
 					<div class="form-group">
 						<label for="lastName">Last Name*</label>
-						<input type="text" class="form-control" id="lastName" name="lastname" ng-minlength=3 ng-maxlength=20 ng-blur placeholder="Enter last name" ng-model="form.name.last" required>
+						<input type="text" class="form-control" id="lastName" name="lastname" ng-maxlength=20 placeholder="Enter last name" ng-model="form.name.last" required>
 					</div>
 					<div class="form-group row">
-						<div class="col-sm-12 error-container" ng-show="edit_form.lastname.$invalid && edit_form.lastname.$dirty && edit_form.lastname.$blurred">
+						<div class="col-sm-12 error-container" ng-show="edit_form.lastname.$invalid && edit_form.lastname.$dirty || edit_form.submitted">
 							<small class="error" ng-show="edit_form.lastname.$error.required">
 								Your lastname is required.
-							</small>
-							<small class="error" ng-show="edit_form.lastname.$error.minlength">
-								Your lastname is required to be at least 3 characters
 							</small>
 							<small class="error" ng-show="edit_form.lastname.$error.maxlength">
 								Your lastname cannot be longer than 20 characters

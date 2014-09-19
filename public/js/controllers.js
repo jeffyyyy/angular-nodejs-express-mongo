@@ -45,7 +45,6 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorS
 		$scope.users = [];
 
 		socket.emit('adduser', data);
-
 		socket.on('updatechat', function(username, message) {
 			var mes = {};
 			if (username == 'SERVER') {
@@ -105,15 +104,18 @@ Controllers.controller('UserEditCtrl', function ($scope, $http, $location, $rout
 	$scope.formCopy = User.createUser();
 	
 	$scope.update = function(form) {
+		$scope.edit_form.submitted = false;
 		if($scope.edit_form.$valid) {
 			$scope.formCopy = angular.copy(form);
-			if (form) {
+			
 				User.updateUser($routeParams.userId, form).success(function (data, status, headers, config) {
 					$location.path('/user');
 				}).error(function (data, status, headers, config) {
 					//todo
 				});
-			}
+			
+		} else {
+			$scope.edit_form.submitted = true;
 		}
 	}
 

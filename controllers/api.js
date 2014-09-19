@@ -20,7 +20,7 @@ exports.login = function(req, res, next) {
 				return res.send(401);
 			}
 			req.user = user;
-			var token = jwt.sign({id: user._id}, app.config.session.secret, {expiresInMinutes: tokenManager.TOKEN_EXPIRATION});
+			var token = jwt.sign({id: user._id}, app.config.session.secret, {expiresInMinutes: 60});
 			res.json({token: token});
 		});
 

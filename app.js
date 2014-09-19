@@ -21,8 +21,7 @@ var express = require('express'),
 	expressJwt = require('express-jwt'),
 	io = require('socket.io')(http),
 	socket = require('./routes/socket.js')
-	usernames = {},
-	rooms = ['room1', 'room2', 'room3']
+	usernames = {}
 ;
 
 global.app = app;
