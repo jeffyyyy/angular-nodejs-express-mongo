@@ -371,3 +371,37 @@ Directives.directive('setLoginHeight', function($timeout) {
 		}
 	}
 });
+
+Directives.directive('chart', function() {
+	return {
+		restrict: 'E',
+		// replace: true,
+		scope: {
+			data: '='
+		},
+		// template: '<div class="chart"</div>',
+		link: function(scope, element, attrs) {
+			var chart = new google.visualization.LineChart(element[0]);
+			var options = {
+				width: 700,
+				height:300
+			};
+			var data = google.visualization.arrayToDataTable(scope.data);
+			chart.draw(data, options);
+		}
+	}
+});
+
+Directives.directive('googleChart', function() {
+	return {
+		restrict: "A",
+		link: function(scope, element, attr) {
+			var dt = scope[attr.ngModel].dataTable;
+			var options = {};
+			if (scope[attr.ngModel].title)
+				options.title = scope[attr.ngModel].title;
+			var googleChart = new google.visualization[attr.googleChart](element[0]);
+			googleChart.draw(dt, options);
+		}
+	}
+});

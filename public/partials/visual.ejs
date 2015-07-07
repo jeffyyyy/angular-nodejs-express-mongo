@@ -1,0 +1,12 @@
+<div ng-include src="'/public/partials/header.ejs'"></div>
+
+<div class="container">
+  <!-- <chart data="scoreHistory"></chart>
+  <chart2 data="data"></chart2> -->
+  <div google-chart="PieChart" ng-model="data1"></div>
+  <div google-chart="BarChart" ng-model="data2"></div>
+  <div google-chart="LineChart" ng-model="data3"></div>
+</div>
+
+
+<div ng-include src="'/public/partials/footer.ejs'"></div>

@@ -1,5 +1,7 @@
 'use strict';
 
+google.load('visualization', '1', {packages: ['corechart']});
+
 // Declare app level module which depends on filters, factories and services
 
 var myApp = angular.module('myApp', [
@@ -47,6 +49,11 @@ myApp.config(function ($routeProvider, $locationProvider) {
 			templateUrl: '/public/partials/paintBoard.ejs',
 			access: { requiredLogin: true }
 		})
+		.when('/visual', {
+			templateUrl: '/public/partials/visual.ejs',
+			controller: 'VisualCtrl',
+			access: { requiredLogin: true}
+		})
 		.otherwise({
 			redirectTo: '/login'
 		});
@@ -67,3 +74,4 @@ myApp.run(function($rootScope, $location, $window, AuthenticationService) {
 		}
 	});
 });
+
