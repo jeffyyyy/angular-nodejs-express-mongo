@@ -395,11 +395,13 @@ Directives.directive('chart', function() {
 Directives.directive('googleChart', function() {
 	return {
 		restrict: "A",
+		replace: true,
+		template: '<div class="chart"></div>',
 		link: function(scope, element, attr) {
 			var dt = scope[attr.ngModel].dataTable;
 			var options = {};
-			if (scope[attr.ngModel].title)
-				options.title = scope[attr.ngModel].title;
+			if (scope[attr.ngModel].options)
+				options = scope[attr.ngModel].options;
 			var googleChart = new google.visualization[attr.googleChart](element[0]);
 			googleChart.draw(dt, options);
 		}

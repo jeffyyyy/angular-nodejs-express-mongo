@@ -71,3 +71,5 @@ canvas{
 input.ng-valid {
 	border: 1px solid green;
 }*/
+
+.mediumGraph {width:400px;height:400px;float:left;}

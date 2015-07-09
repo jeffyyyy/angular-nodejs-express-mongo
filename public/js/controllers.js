@@ -148,7 +148,7 @@ Controllers.controller('VisualCtrl', function($scope) {
 	$scope.data1.dataTable.addRow(['Test', 1]);
 	$scope.data1.dataTable.addRow(['Test2', 2]);
 	$scope.data1.dataTable.addRow(['Test3', 3]);
-	$scope.data1.title = 'My pie';
+	$scope.data1.options = {title: 'Pie Chart'};
 
 	$scope.data2 = {};
 	$scope.data2.dataTable = new google.visualization.DataTable();
@@ -157,7 +157,7 @@ Controllers.controller('VisualCtrl', function($scope) {
 	$scope.data2.dataTable.addRow(['Test', 1]);
 	$scope.data2.dataTable.addRow(['Test2', 2]);
 	$scope.data2.dataTable.addRow(['Test3', 3]);
-	$scope.data2.title = 'My pie';
+	$scope.data2.options = {title: 'Bar Chart'};
 
 	$scope.data3 = {};
 	$scope.data3.dataTable = new google.visualization.DataTable();
@@ -166,6 +166,53 @@ Controllers.controller('VisualCtrl', function($scope) {
 	$scope.data3.dataTable.addRow(['Test', 1]);
 	$scope.data3.dataTable.addRow(['Test2', 2]);
 	$scope.data3.dataTable.addRow(['Test3', 3]);
-	$scope.data3.title = 'My pie';
+	$scope.data3.options = {title: 'Line Chart'};
+
+	$scope.data4 = {};
+	$scope.data4.dataTable = new google.visualization.DataTable();
+	$scope.data4.dataTable.addColumn({type: 'string', id: 'Role'});
+	$scope.data4.dataTable.addColumn({type: 'string', id: 'President'});
+	$scope.data4.dataTable.addColumn({type: 'date', id: 'Start'});
+	$scope.data4.dataTable.addColumn({type: 'date', id: 'End'});
+	$scope.data4.dataTable.addRows([
+		['President','Washington', new Date(1789, 3, 39), new Date(1797, 2, 4)],
+		['President','Adams', new Date(1797, 2, 4), new Date(1801, 2, 4)],
+		['President','Jefferson', new Date(1801, 2, 4), new Date(1809, 2, 4)],
+	]);
+	$scope.data4.options = {timeline: {groupByRowLabel: true}};
+
+	$scope.data5 = {};
+	$scope.data5.dataTable = new google.visualization.DataTable();
+	$scope.data5.dataTable.addColumn('string', 'Year');
+	$scope.data5.dataTable.addColumn('number', 'Sales');
+	$scope.data5.dataTable.addColumn('number', 'Expenses');
+	$scope.data5.dataTable.addRows([
+		['2013', 1000, 400],
+		['2014', 1170, 460],
+		['2015', 660, 1120],
+		['2016', 1030, 540]
+	]);
+	$scope.data5.options = {title: 'Area Chart'};
+
+	$scope.data6 = {};
+	$scope.data6.dataTable = new google.visualization.DataTable();
+	$scope.data6.dataTable.addColumn('string', 'ID');
+	$scope.data6.dataTable.addColumn('number', 'Life Expectancy');
+	$scope.data6.dataTable.addColumn('number', 'Fertility Rate');
+	$scope.data6.dataTable.addColumn('string', 'Region');
+	$scope.data6.dataTable.addColumn('number', 'Population');
+	$scope.data6.dataTable.addRows([
+	  ['CAN',    80.66,              1.67,      'North America',  33739900],
+	  ['DEU',    79.84,              1.36,      'Europe',         81902307],
+	  ['DNK',    78.6,               1.84,      'Europe',         5523095],
+	  ['EGY',    72.73,              2.78,      'Middle East',    79716203],
+	  ['GBR',    80.05,              2,         'Europe',         61801570],
+	  ['IRN',    72.49,              1.7,       'Middle East',    73137148],
+	  ['IRQ',    68.09,              4.77,      'Middle East',    31090763],
+	  ['ISR',    81.55,              2.96,      'Middle East',    7485600],
+	  ['RUS',    68.6,               1.54,      'Europe',         141850000],
+	  ['USA',    78.09,              2.05,      'North America',  307007000]
+	]);
+	$scope.data6.options = {title: 'Bubble Chart'};
 });
 
