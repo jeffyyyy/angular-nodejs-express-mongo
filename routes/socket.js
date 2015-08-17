@@ -15,10 +15,15 @@ module.exports = function (socket) {
 		app.io.sockets.in(socket.room).emit('updatechat', socket.username, message);
 	});
 
-	socket.on('disconnect', function() {
+	socket.on('leaveroom', function(username) {
 		delete app.usernames[socket.username];
 		app.io.sockets.emit('updateusers', app.usernames);
+		socket.broadcast.to('chatroom').emit('updateuser', app.usernames);
 		socket.broadcast.emit('updatechat', 'SERVER', socket.username + ' has disconnected');
 		socket.leave(socket.room);
+	});
+
+	socket.on('disconnect', function() {
+	
 	});
 };

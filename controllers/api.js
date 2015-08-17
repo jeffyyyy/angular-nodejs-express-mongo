@@ -29,8 +29,11 @@ exports.login = function(req, res, next) {
 
 exports.logout = function(req, res, next) {
 	if (req.user) {
-		delete req.user;
-		return res.send(200);
+		var username = req.user.username;
+		User.findById(req.user.id, function(err, user) {
+			delete req.user;
+			return res.send({username: user.username});
+		});
 	}
 	else {
 		return res.send(401);

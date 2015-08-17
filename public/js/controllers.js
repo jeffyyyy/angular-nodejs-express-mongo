@@ -37,12 +37,12 @@ Controllers.controller('AppCtrl', function ($scope, $location, Config, $window, 
 });
 
 // Home page
-Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket) {
+Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorScroll, User, AuthenticationService, socket, $window) {
+	$scope.messages = [];
+	$scope.users = {};
+
 	User.getCurrentUser().success(function(data) {
 		var username = data.name.first + ' ' + data.name.last;
-		
-		$scope.messages = [];
-		$scope.users = [];
 
 		socket.emit('adduser', data);
 		socket.on('updatechat', function(username, message) {
@@ -60,13 +60,16 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorS
 		});
 
 		socket.on('updateuser', function(data) {
-			$scope.users = data;
+			$scope.users = {};
+			for(var i in data) {
+				$scope.users[i] = data[i];
+			}
 		})
 
 		$scope.sendMessage = function() {
 			socket.emit('sendchat', $scope.message);
 			$location.hash('bottom');
-	        $anchorScroll();
+      $anchorScroll();
 			$scope.message = '';
 		}
 
@@ -76,6 +79,20 @@ Controllers.controller('IndexCtrl', function ($scope, $http, $location, $anchorS
 			}
 		}
 	});
+
+	$scope.logout = function() {
+		if (AuthenticationService.getUserInfo()) {
+			User.logout().success(function(data) {
+				socket.emit('leaveroom', data.username);
+				delete $scope.users[data.username];
+				AuthenticationService.userInfo = null;
+				delete $window.sessionStorage.token;
+				$location.path('/login');
+			}).error(function(status, data) {
+				//todo
+			});
+		}
+	}
 
 });
 
