@@ -1,9 +1,9 @@
 angular-nodejs-express-mongo
 ============================
 
-An experiment of using Angularjs backed with nodejs/express and Mongodb.
+An experiment of using MEAN stack.
 
-Containing basic functions such as user authentication and management.
+Containing basic functions such as user authentication and management, chatroom using socket.io, canvas painting, google visualization tools.
 
 
 A few Steps to make it work:
@@ -11,9 +11,9 @@ A few Steps to make it work:
 
 	A. Install Mongo and start mongo server
 
-	B. Install Node.js and bower
+	B. Install Node.js and Bower
 
-	C. cd into this project folder and run command 'npm install'
+	C. cd into project folder and run command 'npm install'
 
 	D. run command 'bower install'
 
@@ -33,7 +33,7 @@ Code distribution:
 	MongoDb related code is in folder "models" and "schemas"
 
 	AngularJs code is in folder "public/js".
-	Angular partial views is in folder "public/partials"
+	Angular view templates are in folder "public/partials"
 
 	Main index page is in folder "views"
 
